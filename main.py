@@ -1,5 +1,9 @@
-vieta = [x for x in range(1, 10)]
+import pickle
 
+
+vieta = [x for x in range(1, 10)]
+x_rezultatas = []
+o_rezultatas = []
 
 def zaidimo_tinklelis():
     # susideliojama vietos į tinklelį 3x3, priskiriant masyvo indeksui jo vietą.
@@ -47,6 +51,49 @@ def lygios():
     else:
         return True
 
+def rezultatai():
+    x_rezultatas = []
+    o_rezultatas = []
+    try:
+        with open ("x_rezultatas.pkl", "rb") as file:
+             pickle.load(file)
+        with open("o_rezultatas.pkl", "rb") as file:
+            pickle.load(file)
+    except:
+        print("Nera tokio failo")
+        with open("x_rezultatas.pkl","wb") as file:
+            pickle.dump(x_rezultatas,file)
+        with open("o_rezultatas.pkl", "wb") as file:
+             pickle.dump(o_rezultatas, file)
+    if laimejimas("X"):
+        with open("x_rezultatas.pkl", "rb") as file:
+            x_rezultatas = pickle.load(file)
+            with open("x_rezultatas.pkl","wb") as file:
+                 x_rezultatas.append(1)
+                 pickle.dump(x_rezultatas,file)
+            with open("o_rezultatas.pkl", "rb") as file:
+                o_rezultatas = pickle.load(file)
+    if laimejimas("O"):
+        with open("o_rezultatas.pkl", "rb") as file:
+            o_rezultatas = pickle.load(file)
+            with open("o_rezultatas.pkl","wb") as file:
+                 o_rezultatas.append(1)
+                 pickle.dump(o_rezultatas,file)
+            with open("x_rezultatas.pkl", "rb") as file:
+                x_rezultatas = pickle.load(file)
+    if lygios:
+        with open("x_rezultatas.pkl", "rb") as file:
+            x_rezultatas = pickle.load(file)
+        with open("o_rezultatas.pkl", "rb") as file:
+            o_rezultatas = pickle.load(file)
+    rezultatasx = sum(x_rezultatas)
+    rezultataso = sum(o_rezultatas)
+    return f"Rezultatai: X:{rezultatasx} - O:{rezultataso}"
+
+
+
+
+
 
 def main():
     while True:
@@ -72,10 +119,17 @@ def main():
 while True:
     vieta = [x for x in range(1, 10)]  #pridetas i while True kad pradedant iš naujo, pradetu nuo pirminės reiksmes
     main()
+    print(rezultatai())
     uzklausimas = input("Ar norite sužaisti dar kartą? Spausti T pradėti, bet kokį mygtuką - išeiti ")
     if uzklausimas == "T":
         continue
     else:
         print("Ačiū už žaidimą.Viso gero...")
+        with open("x_rezultatas.pkl", "wb") as file:
+            x_rezultatas.clear()
+            pickle.dump(x_rezultatas, file)
+        with open("o_rezultatas.pkl", "wb") as file:
+            o_rezultatas.clear()
+            pickle.dump(o_rezultatas, file)
         break
 
