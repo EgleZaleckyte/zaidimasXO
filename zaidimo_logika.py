@@ -1,7 +1,7 @@
 from funkcijos import zaidimo_tinklelis, zaidejo_ejimas, laimejimas, lygios
 
 
-def main():
+def zaidimo_logika():
     while True:
         print(zaidimo_tinklelis())
         zaidejo_ejimas("X")
